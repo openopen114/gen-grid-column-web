@@ -1,4 +1,4 @@
-##   Generate GRID COLUMN
+##   Generate Grid Column
 
 #### Live demo: [https://openopen114.github.io/gen-grid-column-web/](https://openopen114.github.io/gen-grid-column-web/)
 
