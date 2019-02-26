@@ -1,10 +1,24 @@
-import React, { Component, useContext } from "react";
+import React, { Component, useContext ,Fragment } from "react";
 import AppContext from "../../config/Context";
 
 import Highlight, { defaultProps } from "prism-react-renderer";
 import theme from "prism-react-renderer/themes/nightOwl";
 
 import "./index.less";
+
+
+
+const HighlightCode = () => {
+  const { formattedGridColumn, formattedFactoryComp } = useContext(AppContext);
+
+  return (
+    <Fragment>
+      <HighlightCodeComp codeStr={formattedGridColumn} lang="js" />
+      <HighlightCodeComp codeStr={formattedFactoryComp} lang="jsx" />
+    </Fragment>
+    
+  );
+};
 
 
 
@@ -39,13 +53,5 @@ class HighlightCodeComp extends Component {
 
 
 
-
-const HighlightCode = () => {
-  const { formattedGridColumn } = useContext(AppContext);
-
-  return (
-    <HighlightCodeComp codeStr={formattedGridColumn} lang="js" />
-  );
-};
 
 export default HighlightCode;

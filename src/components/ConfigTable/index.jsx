@@ -7,7 +7,7 @@ import { Button } from 'antd';
 
 import "./index.scss";
  
-const Option = Select.Option;
+const {Option, OptGroup} = Select;
 
 
 const ConfigTable = () => {
@@ -17,7 +17,7 @@ const ConfigTable = () => {
 
   //handle change event
   const handleChange = (_type, _index, _value) => {
-    // console.log(`type:${_type} index:${_index} value:${_value}`);
+    console.log(`type:${_type} index:${_index} value:${_value}`);
  
 
     const config = {}
@@ -85,11 +85,28 @@ const ConfigTable = () => {
         key: "Render",
         render: (text, record, index) => (
           <Select defaultValue="none" style={{ width: 120 }} onChange={handleChange.bind(this, 'render', index)}>
-            <Option value="none">none</Option>
-            <Option value="span">span</Option>
-            <Option value="moment">moment</Option> 
-            <Option value="toLocaleString">toLocaleString</Option>
-            <Option value="Tooltip">Tooltip</Option>   
+               
+
+
+            <OptGroup label="Basic">
+              <Option value="none">none</Option>
+              <Option value="Basic-span">span</Option>
+              <Option value="Basic-moment">moment</Option> 
+              <Option value="Basic-toLocaleString">toLocaleString</Option>
+              <Option value="Basic-Tooltip">Tooltip</Option>
+            </OptGroup>
+            <OptGroup label="FactoryComp">
+              <Option value="FactoryComp-Text">Text</Option>
+              <Option value="FactoryComp-Select">Select</Option>
+              <Option value="FactoryComp-Number">Number</Option>
+              <Option value="FactoryComp-Month">Month</Option>
+              <Option value="FactoryComp-Year">Year</Option>
+              <Option value="FactoryComp-Date">Date</Option>
+              <Option value="FactoryComp-Ref">Ref</Option>
+            </OptGroup>
+  
+
+
           </Select>
         )
       }

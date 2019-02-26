@@ -13,6 +13,269 @@ export const ignoreColumnName = [
   "DR"
 ];
 
+export const genFactoryComp = _state => {
+    console.log('gen factory comp')
+  const { tableSchema } = _state;
+
+  let result = "";
+  let importComp = [];
+  let renderComp = [];
+ 
+ console.log('tableSchema map')
+  tableSchema.map(item => {
+    if (!ignoreColumnName.includes(item.columnName)) {
+      const colName = _.camelCase(item.columnName);
+      const renderType = _.startsWith(item.render, "FactoryComp-")
+        ? _.split(item.render, "FactoryComp-")[1]
+        : "none";
+
+      console.log(item.render) 
+      console.log(`renderType:${renderType}`)
+     let renderCompItem = "";
+
+      switch (renderType) {
+        case "none":
+          break;
+        case "Text":
+          importComp.push(`import TextField from 'components/RowField/TextField';`);
+
+          renderCompItem += `
+                                case '${colName}': 
+                                  return (<div>
+                                      {record._edit ?//编辑态
+                                          <TextField {...this.props}
+                                              status={record['_status']}//是否修改过标记
+                                              validate={record['_validate']}//启用验证
+                                          /> : <div>{value}</div>}
+                                  </div>);
+                              `;
+          renderComp.push(renderCompItem);
+          console.log('renderComp i');
+          console.log(renderComp)
+          break;
+
+        case "Select":
+          importComp.push(`import SelectField from 'components/RowField/SelectField';`);
+          renderCompItem += `
+                                case '${colName}': 
+                                const ${colName}Data = [{
+                                    key: "请选择",
+                                    value: '',
+                                    disabled: true
+                                }, {
+                                    key: 'KEY-001',
+                                    value: 'VALUE-001'
+                                }, {
+                                    key: 'KEY-002',
+                                    value: 'VALUE-002'
+                                }];
+                                return (<div>
+                                    {record._edit ?
+                                        <SelectField {...this.props}
+                                            status={record['_status']}//是否修改过标记
+                                            validate={record['_validate']}//启用验证
+                                            data={${colName}Data}
+                                        /> : <div>{record.${colName}EnumValue}</div>}
+                                </div>);
+                              `;
+          renderComp.push(renderCompItem);
+          console.log('renderComp i');
+          console.log(renderComp)
+          break;
+
+        case "Number":
+          importComp.push(`import NumberField from 'components/RowField/NumberField';`);
+          renderCompItem += `
+                                 case '${colName}'://工龄
+                            return (<div>
+                                {record._edit ?
+                                    <NumberField {...this.props}
+                                        status={record['_status']}//是否修改过标记
+                                        validate={record['_validate']}//启用验证
+                                        iconStyle="one"
+                                        max={999999}
+                                        min={0}
+                                        step={1}
+                                    /> : <div>{value}</div>}
+                            </div>);
+                              `;
+          renderComp.push(renderCompItem);
+          console.log('renderComp i');
+          console.log(renderComp)
+          break;
+
+        case "Month":
+          importComp.push(`import SelectField from 'components/RowField/SelectField';`);
+          renderCompItem += `
+                                 case 'month'://月份
+                const monthData = [{
+                    key: "请选择",
+                    value: "",
+                    disabled: true
+                }, {
+                    key: "一月",
+                    value: 1
+                }, {
+                    key: "二月",
+                    value: 2
+                }, {
+                    key: "三月",
+                    value: 3
+                }, {
+                    key: "四月",
+                    value: 4
+                }, {
+                    key: "五月",
+                    value: 5
+                }, {
+                    key: "六月",
+                    value: 6
+                }, {
+                    key: "七月",
+                    value: 7
+                }, {
+                    key: "八月",
+                    value: 8
+                }, {
+                    key: "九月",
+                    value: 9
+                }, {
+                    key: "十月",
+                    value: 10
+                }, {
+                    key: "十一月",
+                    value: 11
+                }, {
+                    key: "十二月",
+                    value: 12
+                }];
+                return (<div>
+                    {record._edit ?
+                        <SelectField {...this.props}
+                            status={record['_status']}//是否修改过标记
+                            validate={record['_validate']}//启用验证
+                            data={monthData}//自定义数据传入json
+                        /> : <div>{record.monthEnumValue}</div>}
+                </div>);
+                              `;
+          renderComp.push(renderCompItem);
+          break;
+
+        case "Year":
+          importComp.push(`import YearField from 'components/RowField/YearField';`);
+          renderCompItem += `  
+           case 'year'://年份
+                return (<div>
+                    {record._edit ?
+                        <YearField {...this.props}
+                            status={record['_status']}//是否修改过标记
+                            validate={record['_validate']}//启用验证
+                        /> : <div>{value}</div>}
+                </div>);
+                              `;
+          renderComp.push(renderCompItem);
+          break;
+
+        case "Date":
+          importComp.push(`import DateField from 'components/RowField/DateField';`);
+          renderCompItem += `    
+            case 'date'://日期
+                  return (<div>
+                      {record._edit ?
+                          <DateField {...this.props}
+                              status={record['_status']}//是否修改过标记
+                              validate={record['_validate']}//启用验证
+                          /> : <div>{value}</div>}
+                  </div>);
+                              `;
+          renderComp.push(renderCompItem);
+          break;
+
+        case "Ref":
+          importComp.push(`import Ref${_.upperFirst(colName)} from 'components/RowField/Ref$${_.upperFirst(colName)}';`);
+          renderCompItem += `    
+           case '${colName}': 
+                return (<div>
+                    {record._edit ?
+                        <${colName}Dept {...this.props}
+                            status={record['_status']}//是否修改过标记
+                            validate={record['_validate']}//启用验证
+                        /> : <div>{record.${colName}Name}</div>}
+                </div>);
+                              `;
+          renderComp.push(renderCompItem);
+          break;
+
+        default:
+          break;
+      }
+    }
+  });
+
+ console.log('tableSchema map end')
+
+  // Ouptut Result
+  result += `import React, { Component } from 'react';`;
+
+  
+  
+  importComp = _.uniq(importComp);
+  importComp.map(item => {
+    result += `
+        ${item}
+     `;
+  });
+
+  result += `
+     class FactoryComp extends Component {
+        constructor(props) {
+          super(props);
+        }
+
+
+        renderComp = () => {
+        let { type, value, record } = this.props;
+        switch (type) {  
+              
+   `;
+
+
+   console.log('renderComp o');
+          console.log(renderComp)
+
+  renderComp.map(item => {
+    result += `
+          ${item}
+      `;
+  });
+
+  result += `
+                   default:
+                      return (<div>组件类型错误</div>)
+              }
+          }
+          render() {
+              return (<div>
+                  {this.renderComp()}
+              </div>);
+          }
+      }
+
+      export default FactoryComp;
+
+  `;
+
+  const formattedFactoryComp = prettier.format(result, {
+    parser: "babylon",
+    plugins
+  });
+
+  return formattedFactoryComp;
+};
+
+
+
+
 export const genGridColumn = _state => {
   const { tableSchema } = _state;
 
@@ -94,31 +357,48 @@ export const genGridColumn = _state => {
       }
 
       // render
+      //Facroty Comp
+      if (_.startsWith(render, "FactoryComp-")) {
+        result += `
+          render: (text, record, index) => {
+                return <FactoryComp
+                    type='${colName}'  //业务组件类型
+                    value={text} //初始化值
+                    field='${colName}' //修改的字段
+                    index={index} //字段的行号
+                    required={true} //必输项
+                    record={record} //记录集用于多字段处理
+                    onChange={this.changeAllData} //回调函数
+                    onValidate={this.onValidate} //校验的回调
+                />
+            }
+        `;
+      }
       switch (render) {
         case "none":
           break;
-        case "span":
+        case "Basic-span":
           result += `
                 render: (text, record, index) => {
                     return <span>{text ? text : ""}</span>
                 }
               `;
           break;
-        case "moment":
+        case "Basic-moment":
           result += `
                 render: (text, record, index) => {
                       return <div>{text ? moment(text).format("YYYY/MM/DD") : ""}</div>
                 }
               `;
           break;
-        case "toLocaleString":
+        case "Basic-toLocaleString":
           result += `
                 render: (text, record, index) => {
                       return  <span>{typeof text === "number" ? Number(text.toFixed(2)).toLocaleString() : ""}</span>;
                 }
               `;
           break;
-        case "Tooltip":
+        case "Basic-Tooltip":
           result += `
                 render: (text, record, index) => {
                     return (
