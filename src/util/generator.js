@@ -192,12 +192,12 @@ export const genFactoryComp = _state => {
           break;
 
         case "Ref":
-          importComp.push(`import Ref${_.upperFirst(colName)} from 'components/RowField/Ref$${_.upperFirst(colName)}';`);
+          importComp.push(`import Ref${_.upperFirst(colName)} from 'components/RowField/Ref${_.upperFirst(colName)}';`);
           renderCompItem += `    
            case '${colName}': 
                 return (<div>
                     {record._edit ?
-                        <${colName}Dept {...this.props}
+                        <Ref${_.upperFirst(colName)} {...this.props}
                             status={record['_status']}//是否修改过标记
                             validate={record['_validate']}//启用验证
                         /> : <div>{record.${colName}Name}</div>}
