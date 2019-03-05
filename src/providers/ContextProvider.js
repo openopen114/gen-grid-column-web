@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import AppContext from "../config/Context";
 
-import { genGridColumn, genFactoryComp, formateConfigParam } from "../util/generator";
+import { genGridColumn, genFactoryComp, formateConfigParam, genColumnInitTmp } from "../util/generator";
 
 const AppContextProvider = props => {
 
   const [tableSchema, setTableSchema] = useState([]); //table schema
   const [formattedGridColumn, setFormattedGridColumn] = useState(""); // formatted result of grid column
-
   const [formattedFactoryComp, setFormattedFactoryComp] = useState(""); // formatted result of Factory Comp
-
+  const [formattedColunmInitTmp, setFormattedColunmInitTmp] = useState(""); //formatted handle new column init tmp
   // Set Setting Config Form Setting Comp Data
   const setSettingConfig = _data => { 
     const { tableSchema } = formateConfigParam(_data);
@@ -24,6 +23,9 @@ const AppContextProvider = props => {
     const formattedGridColumn = genGridColumn({tableSchema});
     setFormattedGridColumn(formattedGridColumn); 
 
+    const formattedColunmInitTmp = genColumnInitTmp({tableSchema});
+    setFormattedColunmInitTmp(formattedColunmInitTmp);
+
 
     const formattedFactoryComp = genFactoryComp({tableSchema});
     setFormattedFactoryComp(formattedFactoryComp)
@@ -37,6 +39,7 @@ const AppContextProvider = props => {
         tableSchema,
         formattedGridColumn,
         formattedFactoryComp,
+        formattedColunmInitTmp,
         setSettingConfig,
         updateConfig
       }}

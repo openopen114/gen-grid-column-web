@@ -281,7 +281,7 @@ export const genGridColumn = _state => {
 
   let result = "";
 
-  result += `const column = [`;
+  result += `column = [`;
 
   tableSchema.map(item => {
     if (!ignoreColumnName.includes(item.columnName)) {
@@ -427,6 +427,68 @@ export const genGridColumn = _state => {
 
   return formattedGridColumn;
 };
+
+
+
+
+
+
+export const genColumnInitTmp = _state => {
+  const { tableSchema } = _state;
+
+  let result = "";
+
+  result += `
+            let tmp = {
+              key: uuid(),
+              _edit: true,
+              _isNew: true,
+              _checked: false,
+              _disabled: false,
+              _flag: false,
+            `;
+
+
+    let map = new Map();
+
+    map.set("String", `''`);
+    map.set("Double", 0.0);
+    map.set("Integer", 0);           
+
+  tableSchema.map(item => {
+    if (!ignoreColumnName.includes(item.columnName)) {
+      const colName = _.camelCase(item.columnName);
+      const type = item.type;
+      const initVal = map.get(type);
+
+  
+      if(colName == 'year'){
+          result += `year: moment().format('YYYY'),`;
+      }else{
+          result += ` ${colName}:${initVal}, `;
+
+      }
+    }
+  })
+
+ 
+
+  result += `}`;
+
+  const formattedColunmInitTmp = prettier.format(result, {
+    parser: "babylon",
+    plugins
+  });
+
+  return formattedColunmInitTmp;
+};
+
+
+
+
+
+
+
 
 export const formatTableSchemaToArray = _tableSchema => {
   let preprocessData = _.split(_tableSchema, "[");

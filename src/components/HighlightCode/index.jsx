@@ -9,12 +9,13 @@ import "./index.less";
 
 
 const HighlightCode = () => {
-  const { formattedGridColumn, formattedFactoryComp } = useContext(AppContext);
+  const { formattedGridColumn, formattedFactoryComp, formattedColunmInitTmp } = useContext(AppContext);
 
   return (
     <Fragment>
       <HighlightCodeComp codeStr={formattedGridColumn} lang="js" />
-      <HighlightCodeComp codeStr={formattedFactoryComp} lang="jsx" />
+      <HighlightCodeComp codeStr={formattedColunmInitTmp} lang="jsx" />
+      <HighlightCodeComp codeStr={formattedFactoryComp} lang="js" />
     </Fragment>
     
   );
