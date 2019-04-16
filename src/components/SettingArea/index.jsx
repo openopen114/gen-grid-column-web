@@ -26,6 +26,8 @@ const SettingArea = hocProps => {
     e.preventDefault();
     validateFields((err, values) => {
       if (!err) {
+        console.log('submit value')
+        console.log(values);
         setSettingConfig(values);
       }
     });
@@ -45,25 +47,35 @@ const SettingArea = hocProps => {
         <Form.Item label="# Table Schema">
           {getFieldDecorator("tableSchema", {
             // initialValue:`
-            //   [ID] [varchar](64) NOT NULL,
-            //   [NAME] [varchar](64) NULL,
-            //   [IS_SON] [decimal](1, 0) NULL,
-            //   [PARENTID] [varchar](64) NULL,
-            //   [CREATE_TIME] [varchar](64) NULL,
-            //   [CREATE_USER] [varchar](64) NULL,
-            //   [LAST_MODIFIED] [varchar](64) NULL,
-            //   [LAST_MODIFY_USER] [varchar](64) NULL,
-            //   [TS] [varchar](64) NULL,
-            //   [DR] [decimal](11, 0) NULL,
-            //   [BPM_STATE] [decimal](11, 0) NULL,
-            //   [TENANT_ID] [varchar](64) NULL,
-            //   [CODE] [varchar](255) NULL
+            //    [CREATE_TIME]    [VARCHAR]  
+            //    [CREATE_USER]    [VARCHAR]  
+            //    [LAST_MODIFIED]    [VARCHAR]  
+            //    [LAST_MODIFY_USER]    [VARCHAR] 
+            //    [BPM_STATE]    [DECIMAL]  
+            //    [TS]    [VARCHAR] 
+            //    [DR]    [DECIMAL]  
+            //    [TENANT_ID]    [VARCHAR]  
+            //    [ID]    [CHAR]  
+            //    [CODE]    [VARCHAR]  
+            //    [DESCRIPTION]    [NVARCHAR]  
+            //    [BUCKET_NO]    [INT]  
             // `,
             rules: [
               { required: true, message: "Please input your Table Schema!" }
             ]
           })(<TextArea rows={10} />)}
         </Form.Item>
+
+        {/* # Project Name */}
+        <Form.Item label="# Project Name">
+          {getFieldDecorator("projectName", {
+            rules: [
+              { required: true, message: "Please input your Project Name!" }
+            ]
+          })(<Input placeholder="project name" />)}
+        </Form.Item>
+
+
 
         {/* Submit Button  */}
         <Form.Item>

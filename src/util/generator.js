@@ -10,16 +10,18 @@ export const ignoreColumnName = [
   "LAST_MODIFIED",
   "LAST_MODIFY_USER",
   "TS",
-  "DR"
+  "DR",
+  "TENANT_ID"
 ];
 
 export const genFactoryComp = _state => {
     console.log('gen factory comp')
-  const { tableSchema } = _state;
+    console.log(_state)
+  const { tableSchema, projectName } = _state;
 
   let result = "";
   let importComp = [];
-  let renderComp = [];
+  let renderComp = []; 
  
  console.log('tableSchema map')
   tableSchema.map(item => {
@@ -57,26 +59,26 @@ export const genFactoryComp = _state => {
         case "Select":
           importComp.push(`import SelectField from 'components/RowField/SelectField';`);
           renderCompItem += `
-                                case '${colName}': 
-                                const ${colName}Data = [{
-                                    key: "请选择",
-                                    value: '',
-                                    disabled: true
-                                }, {
-                                    key: 'KEY-001',
-                                    value: 'VALUE-001'
-                                }, {
-                                    key: 'KEY-002',
-                                    value: 'VALUE-002'
-                                }];
-                                return (<div>
-                                    {record._edit ?
-                                        <SelectField {...this.props}
-                                            status={record['_status']}//是否修改过标记
-                                            validate={record['_validate']}//启用验证
-                                            data={${colName}Data}
-                                        /> : <div>{record.${colName}EnumValue}</div>}
-                                </div>);
+                                case '${colName}':
+                                  const ${colName}Data = [{
+                                      key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.${colName}.0001", defaultMessage: '請選擇' }),
+                                      value: '',
+                                      disabled: true
+                                  }, {
+                                      key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.${colName}.0002", defaultMessage: 'KEY-001' }),
+                                      value: 'VALUE-001'
+                                  }, {
+                                      key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.${colName}.0003", defaultMessage: 'KEY-002' }),
+                                      value: 'VALUE-002'
+                                  }];
+                                  return (<div>
+                                      {record._edit ?
+                                          <SelectField {...this.props}
+                                              status={record['_status']}//是否修改过标记
+                                              validate={record['_validate']}//启用验证
+                                              data={${colName}Data}
+                                          /> : <div>{record.${colName}EnumValue}</div>}
+                                  </div>); 
                               `;
           renderComp.push(renderCompItem);
           console.log('renderComp i');
@@ -86,18 +88,18 @@ export const genFactoryComp = _state => {
         case "Number":
           importComp.push(`import NumberField from 'components/RowField/NumberField';`);
           renderCompItem += `
-                                 case '${colName}'://工龄
-                            return (<div>
-                                {record._edit ?
-                                    <NumberField {...this.props}
-                                        status={record['_status']}//是否修改过标记
-                                        validate={record['_validate']}//启用验证
-                                        iconStyle="one"
-                                        max={999999}
-                                        min={0}
-                                        step={1}
-                                    /> : <div>{value}</div>}
-                            </div>);
+                                 case '${colName}': 
+                                  return (<div>
+                                      {record._edit ?
+                                          <NumberField {...this.props}
+                                              status={record['_status']}//是否修改过标记
+                                              validate={record['_validate']}//启用验证
+                                              iconStyle="one"
+                                              max={99}
+                                              min={0}
+                                              step={1}
+                                          /> : <div>{value}</div>}
+                                  </div>);
                               `;
           renderComp.push(renderCompItem);
           console.log('renderComp i');
@@ -107,46 +109,48 @@ export const genFactoryComp = _state => {
         case "Month":
           importComp.push(`import SelectField from 'components/RowField/SelectField';`);
           renderCompItem += `
-                                 case 'month'://月份
+
+
+                case 'month'://月份
                 const monthData = [{
-                    key: "请选择",
+                    key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.month.0001", defaultMessage: '请选择' }),
                     value: "",
                     disabled: true
                 }, {
-                    key: "一月",
+                    key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.month.0002", defaultMessage: '一月' }),
                     value: 1
                 }, {
-                    key: "二月",
+                    key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.month.0003", defaultMessage: "二月" }),
                     value: 2
                 }, {
-                    key: "三月",
+                    key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.month.0004", defaultMessage: "三月" }),
                     value: 3
                 }, {
-                    key: "四月",
+                    key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.month.0005", defaultMessage: "四月" }),
                     value: 4
                 }, {
-                    key: "五月",
+                    key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.month.0006", defaultMessage: "五月" }),
                     value: 5
                 }, {
-                    key: "六月",
+                    key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.month.0007", defaultMessage: "六月" }),
                     value: 6
                 }, {
-                    key: "七月",
+                    key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.month.0008", defaultMessage: "七月" }),
                     value: 7
                 }, {
-                    key: "八月",
+                    key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.month.0009", defaultMessage: "八月" }),
                     value: 8
                 }, {
-                    key: "九月",
+                    key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.month.0010", defaultMessage: "九月" }),
                     value: 9
                 }, {
-                    key: "十月",
+                    key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.month.0011", defaultMessage: "十月" }),
                     value: 10
                 }, {
-                    key: "十一月",
+                    key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.month.0012", defaultMessage: "十一月" }),
                     value: 11
                 }, {
-                    key: "十二月",
+                    key: this.props.intl.formatMessage({ id: "js.${projectName}.factory.month.0013", defaultMessage: "十二月" }),
                     value: 12
                 }];
                 return (<div>
@@ -157,14 +161,17 @@ export const genFactoryComp = _state => {
                             data={monthData}//自定义数据传入json
                         /> : <div>{record.monthEnumValue}</div>}
                 </div>);
-                              `;
+
+
+
+                     `;
           renderComp.push(renderCompItem);
           break;
 
         case "Year":
           importComp.push(`import YearField from 'components/RowField/YearField';`);
           renderCompItem += `  
-           case 'year'://年份
+             case 'year'://年份
                 return (<div>
                     {record._edit ?
                         <YearField {...this.props}
@@ -178,15 +185,15 @@ export const genFactoryComp = _state => {
 
         case "Date":
           importComp.push(`import DateField from 'components/RowField/DateField';`);
-          renderCompItem += `    
-            case 'date'://日期
-                  return (<div>
-                      {record._edit ?
-                          <DateField {...this.props}
-                              status={record['_status']}//是否修改过标记
-                              validate={record['_validate']}//启用验证
-                          /> : <div>{value}</div>}
-                  </div>);
+          renderCompItem += `
+              case 'date'://日期
+                    return (<div>
+                        {record._edit ?
+                            <DateField {...this.props}
+                                status={record['_status']}//是否修改过标记
+                                validate={record['_validate']}//启用验证
+                            /> : <div>{value}</div>}
+                    </div>); 
                               `;
           renderComp.push(renderCompItem);
           break;
@@ -277,7 +284,7 @@ export const genFactoryComp = _state => {
 
 
 export const genGridColumn = _state => {
-  const { tableSchema } = _state;
+  const { tableSchema, projectName } = _state;
 
   let result = "";
 
@@ -291,8 +298,8 @@ export const genGridColumn = _state => {
       const render = item.render ? item.render : "none";
 
       result += `
-           {
-               title: "${colName}",
+           { 
+               title: this.props.intl.formatMessage({ id:"js.${projectName}.table.00XX" ,defaultMessage:"${colName}" }),
                dataIndex: "${colName}",
                key: "${colName}",
                width: 120,
@@ -418,6 +425,52 @@ export const genGridColumn = _state => {
     }
   });
 
+
+  result += ` 
+
+        
+        {
+            title: this.props.intl.formatMessage({ id:"js.${projectName}.table.00XX" ,defaultMessage:"建立者" }),
+            dataIndex: "createUserName",
+            key: "createUserName",
+            width: 200,
+            render: (text, record, index) => {
+              return <div>{text ? text : decodeURIComponent(getCookie("_A_P_userName"))}</div>;
+            }
+        },
+        {
+            title: this.props.intl.formatMessage({ id:"js.${projectName}.table.00XX" ,defaultMessage:"建立日期" }),
+            dataIndex: "createTime",
+            key: "createTime",
+            width: 200,
+            render: (text, record, index) => { 
+              return <div>{text ? moment(text,'YYYY-MM-DD HH:mm:ss').format('YYYY/MM/DD HH:mm') : moment().format("YYYY/MM/DD HH:mm") }</div>;
+            }
+        },
+
+
+
+        {
+            title: this.props.intl.formatMessage({ id:"js.${projectName}.table.00XX" ,defaultMessage:"修改者" }),
+            dataIndex: "lastModifyUserName",
+            key: "lastModifyUserName",
+            width: 200,
+        },
+        {
+            title: this.props.intl.formatMessage({ id:"js.${projectName}.table.00XX" ,defaultMessage:"修改日期" }),
+            dataIndex: "lastModified",
+            key: "lastModified",
+            width: 200,
+            render: (text, record, index) => { 
+              return <div>{text ? moment(text,'YYYY-MM-DD HH:mm:ss').format('YYYY/MM/DD HH:mm') : moment().format("YYYY/MM/DD HH:mm") }</div>;
+            }
+        },
+
+`
+
+
+
+
   result += `];`;
 
   const formattedGridColumn = prettier.format(result, {
@@ -503,31 +556,54 @@ export const formatTableSchemaToArray = _tableSchema => {
   return preprocessData;
 };
 
+
+
 // Set Seeting Config For Setting Comp Data
 export const formateConfigParam = _data => {
   const packageName = _.toLower(_data.packageName);
-  const projectName = _.upperFirst(_.camelCase(_data.projectName));
-  const tableName = _data.tableName;
+  const projectName = _data.projectName;
+  let tableName = _data.tableName;
+
+
+  tableName = _.replace(tableName, '[', '');
+  tableName = _.replace(tableName, ']', '');
+
+
   let tableSchema = _data.tableSchema;
 
   let map = new Map();
 
-  map.set("VAR", "String");
-  map.set("DEC", "Double");
-  map.set("INT", "Integer");
+  map.set("VAR", "String");//VARCHAR
+  map.set("DEC", "Double");//DECIMAL
+  map.set("INT", "Integer");//INT
+  map.set("NVA", "String");//NVARCHAR
+  map.set("CHA", "String");//CHAR
+ 
 
   const tableSchemaArray = formatTableSchemaToArray(tableSchema);
 
   tableSchema = [];
+  const annotation = {
+    at_Id: false,
+    at_Condition: false,
+    at_GeneratedValue: false,
+    at_CodingEntity:false,
+    at_Reference:false
+  };
 
   for (let i = 0; i < tableSchemaArray.length; i += 2) {
     let obj = {};
     obj.columnName = tableSchemaArray[i];
-    obj.type = map.get(_.toUpper(tableSchemaArray[i + 1]).substring(0, 3));
+    obj.type = map.get(_.replace(tableSchemaArray[i + 1], 'TYPE_', '').trim().substring(0, 3)) ? map.get(_.replace(tableSchemaArray[i + 1], 'TYPE_', '').trim().substring(0, 3)) : 'String';
     obj.key = tableSchemaArray[i];
+
+    obj = {
+      ...obj,
+      ...annotation
+    };
 
     tableSchema.push(obj);
   }
 
-  return { packageName, projectName, tableName, tableSchema };
+  return {projectName, tableSchema };
 };
