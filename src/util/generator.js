@@ -578,6 +578,7 @@ export const formateConfigParam = _data => {
   map.set("INT", "Integer");//INT
   map.set("NVA", "String");//NVARCHAR
   map.set("CHA", "String");//CHAR
+  map.set("BIT", "Boolean"); //BIT
  
 
   const tableSchemaArray = formatTableSchemaToArray(tableSchema);
