@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/gen-grid-column-web/precache-manifest.c781c55489232c1c030fd3c68635ee46.js"
+  "/gen-grid-column-web/precache-manifest.0d09b23c0d651930e4bc20aa692bdcd0.js"
 );
 
 workbox.clientsClaim();
