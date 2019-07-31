@@ -506,7 +506,8 @@ export const genColumnInitTmp = _state => {
 
     map.set("String", `''`);
     map.set("Double", 0.0);
-    map.set("Integer", 0);           
+    map.set("Integer", 0);  
+    map.set("Boolean",false);         
 
   tableSchema.map(item => {
     if (!ignoreColumnName.includes(item.columnName)) {
