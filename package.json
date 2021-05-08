@@ -7,7 +7,7 @@
     "antd": "^3.13.0",
     "js-beautify": "^1.8.9",
     "js-beautify-ejsx": "^1.6.12",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "prettier": "^1.16.4",
     "prism-react-renderer": "^0.1.5",
     "prismjs": "^1.15.0",
